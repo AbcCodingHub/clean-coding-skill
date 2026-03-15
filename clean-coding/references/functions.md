@@ -47,15 +47,17 @@ def with_footer(report):
 
 ```
 # Bad — function does two things
-def render(is_test):
-    if is_test:
-        render_test_page()
-    else:
-        render_production_page()
+def create_user(user, email_user):
+    db.save(user)
+    if email_user:
+        mailer.send(user)
 
-# Good — split into two functions
-def render_test_page(): ...
-def render_production_page(): ...
+# Good — Functions do exactly one thing
+def create_user(user):
+    db.save(user)
+
+def send_welcome_email(user):
+    mailer.send(user)
 ```
 
 ### F4: Delete dead functions

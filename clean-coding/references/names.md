@@ -44,13 +44,23 @@ def calculate_amortization(principal, rate, term): ...
 ```
 
 ### N4: Unambiguous names
-
+Includes variables with implicit units (time, distance, weight, voltage…): use `timeout_ms`, `distance_km`, `weight_kg`.
 ```
 # Bad
 def rename(old, new): ...
 
 # Good
 def rename_file(old_path, new_path): ...
+
+# Bad — implicit units are ambiguous
+timeout = 5000
+distance = 42
+sample_rate = 44100
+
+# Good — unit in name removes ambiguity
+timeout_ms = 5000
+distance_km = 42
+sample_rate_hz = 44100
 ```
 
 ### N5: Length matches scope

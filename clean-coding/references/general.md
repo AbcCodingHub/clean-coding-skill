@@ -386,6 +386,14 @@ def find_unique_user(name):
     if len(results) > 1:
         raise AmbiguousUserError(name, results)
     return results[0]
+
+# Bad — redundant boolean comparison
+if applyDiscount == true:
+    total *= 0.9
+
+# Good — booleans are already true/false
+if applyDiscount:
+    total *= 0.9
 ```
 
 ### G27: Structure over convention
@@ -403,17 +411,30 @@ class TestValidation(unittest.TestCase):
 
 ### G28: Encapsulate conditionals
 
+Each `if` should test exactly one condition. Compound expressions → extract.
+
 ```
-# Bad — complex inline condition
+# Bad — multiple conditions in one if
 if user.age >= 18 and user.has_id and not user.is_banned and user.email_verified:
     grant_access()
 
-# Good — named condition
+# Good — one named condition
 if user.is_eligible_for_access():
     grant_access()
+
+# Bad — compound condition inline
+if len(items) > 0 and items[0].is_active and items[0].owner == current_user:
+    process(items[0])
+
+# Good — extract and name the condition
+first_item_is_mine = len(items) > 0 and items[0].is_active and items[0].owner == current_user
+if first_item_is_mine:
+    process(items[0])
 ```
 
 ### G29: Avoid negative conditionals
+
+Always prefer the positive form. Flip the logic and rename if needed.
 
 ```
 # Bad
@@ -423,6 +444,14 @@ if not is_not_ready:
 # Good — positive form
 if is_ready:
     start()
+
+# Bad — negated boolean method
+if not user.is_disabled():
+    allow_login()
+
+# Good — flip to positive
+if user.is_enabled():
+    allow_login()
 ```
 
 ### G30: Functions do one thing

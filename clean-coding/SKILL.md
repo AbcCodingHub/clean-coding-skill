@@ -10,25 +10,28 @@ Claude already knows Clean Code — this skill defines *when* and *how* to apply
 
 ## Core behavior
 
-1. Complete the requested task first.
-2. Scan touched code for violations using the rule table below.
-3. Apply small, proportional cleanups (rename a variable, extract a constant, delete dead code).
-4. Report all findings using the output format defined below.
+1. **Write clean code from the start.** When generating new code, apply Clean Code rules during writing — not afterward. Use descriptive names (N1), include units in variable names (N4), keep each `if` to one positive condition (G28/G29), extract constants (G25), keep functions small and focused (G30). Don't write dirty code and clean it up — write it clean the first time.
+2. Complete the requested task.
+3. Scan touched code for remaining violations using the rule table below.
+4. Apply proportional cleanups (rename a variable, extract a constant, extract a function, delete dead code, etc.).
+5. Report all findings using the output format defined below.
 
-Keep changes proportional to the task. A bug fix gets 1–2 cleanups. A refactor gets a full review.
+Keep changes proportional to the task. A bug fix gets a couple cleanups. A refactor gets a full review.
+Always apply N1 (Descriptive names), G25 (Named constants), C2 (Delete obsolete comments) and C3 (No redundant comments), no matter the size of the change.
 
 ## Output format
 
 Report findings as a checklist after the code. Each item uses the rule code, a short description, and the location.
 
 ALWAYS use this format:
-
+`- [x] = [Rule code] ([Short description]): what was fixed (line number)`
+e.g.:
 ```
 ### Clean Code Findings
-- [x] N1: Renamed `d` → `elapsed_seconds` (line 12)
-- [x] G25: Extracted magic number `86400` → `SECONDS_PER_DAY` (line 15)
-- [ ] F1: `create_order()` has 6 parameters — use a data structure (line 34)
-- [ ] F1: `send_email(to, subject, body)` has 3 args — consider grouping (line 58)
+- [x] N1 (Descriptive names): Renamed `d` → `elapsed_seconds` (line 12)
+- [x] G25 (Named constants): Extracted magic number `86400` → `SECONDS_PER_DAY` (line 15)
+- [ ] F1 (Minimize arguments): `create_order()` has 6 parameters — use a data structure (line 34)
+- [ ] F1 (Minimize arguments): `send_email(to, subject, body)` has 3 args — consider grouping (line 58)
 ```
 
 `[x]` = fixed by Claude. `[ ]` = flagged for the user to decide.
@@ -66,7 +69,7 @@ Read only the file relevant to the current task.
 
 | Code | Rule | Key signal |
 |------|------|------------|
-| F1 | Minimize arguments | 0 = ideal, 1 = good, 2 = acceptable, 3 = warning — justify it, 4+ = violation — use a data structure |
+| F1 | Minimize arguments | Too many function parameters |
 | F2 | No output arguments | Mutating arguments instead of returning |
 | F3 | No flag arguments | Boolean parameter → split into two functions |
 | F4 | Delete dead functions | Uncalled code exists "just in case" |
@@ -100,10 +103,10 @@ Read only the file relevant to the current task.
 | G23 | Polymorphism over if/else chains | Growing conditional blocks by type |
 | G24 | Follow conventions | Violates language idioms or team style (e.g. PEP 8) |
 | G25 | Named constants, not magic numbers | Literal values without meaning |
-| G26 | Be precise | Vague types, unchecked casts, sloppy equality |
+| G26 | Be precise | Vague types, unchecked casts, sloppy equality, redundant boolean comparisons (`== true`) |
 | G27 | Structure over convention | Relying on naming convention instead of enforced structure |
-| G28 | Encapsulate conditionals | Complex boolean expressions inline |
-| G29 | Avoid negative conditionals | `if not isNotReady` — use positive form |
+| G28 | Encapsulate conditionals | Compound boolean expressions in conditionals |
+| G29 | Avoid negative conditionals | Negated or double-negative conditionals |
 | G30 | Functions do one thing | Function has multiple responsibilities |
 | G31 | Make temporal coupling explicit | Steps that must run in order but nothing enforces it |
 | G32 | Don't be arbitrary | Structure should have a reason, not just habit |
@@ -154,19 +157,14 @@ When multiple violations exist, fix in this order:
 ## When reviewing code (without editing)
 
 Use the same checklist format but mark all items as `[ ]` since nothing is being fixed.
-Add severity after each finding:
+Order findings by the priority order defined above (Correctness → Clarity → Structure → Cleanup):
 
 ```
 ### Clean Code Review
-- [ ] **high** F1: `processOrder()` has 7 parameters (line 22)
-- [ ] **medium** G25: Magic number `3600` used without constant (line 45)
-- [ ] **low** C3: Redundant comment `// increment counter` (line 67)
+- [ ] F1 (Minimize arguments): `processOrder()` has 7 parameters (line 22)
+- [ ] G25 (Named constants): Magic number `3600` used without constant (line 45)
+- [ ] C3 (No redundant comments): Redundant comment `// increment counter` (line 67)
 ```
-
-Severity levels:
-- **high**: Affects correctness, readability of core logic, or testability
-- **medium**: Structural issue that will cause problems as code grows
-- **low**: Style issue, easy cleanup
 
 ## What NOT to do
 

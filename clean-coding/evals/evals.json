@@ -1,0 +1,110 @@
+{
+  "skill_name": "clean-coding",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "The function `calc` returns wrong results when the list is empty. Please fix the bug.",
+      "files": ["evals/files/tc1_bugfix.py"],
+      "expected_output": "Bug fixed with empty-list guard, N1/G25/C2/C3 always applied, remaining issues flagged",
+      "expectations": [
+        "Adds a guard clause for empty list to prevent ZeroDivisionError",
+        "Renames unclear variables like calc, l, s to descriptive names (N1 — always applied)",
+        "Extracts magic numbers 1.19, 100, 0.95 into named constants (G25 — always applied)",
+        "Removes commented-out code and obsolete/redundant comments (C2/C3/C5 — always applied)",
+        "Findings use format: [x] or [ ] CODE (Rule name): description (line N)",
+        "Flags F1 (Minimize arguments) for 6 parameters",
+        "Flags G26 (Be precise) for `if flag == True` — redundant boolean comparison"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Please review this code.",
+      "files": ["evals/files/tc2_review.cs"],
+      "expected_output": "Review-only findings, all marked [ ], ordered by priority (Correctness → Clarity → Structure → Cleanup), no severity labels",
+      "expectations": [
+        "All findings are marked [ ] (none are [x])",
+        "No severity labels (high/medium/low) are used",
+        "Findings are ordered by priority: Correctness first, then Clarity, Structure, Cleanup",
+        "Findings use format: [ ] CODE (Rule name): description (line N)",
+        "Flags G30 (Functions do one thing) for mixed responsibilities",
+        "Flags F1 (Minimize arguments) for 6 parameters",
+        "Flags N1 (Descriptive names) for t, c, fmt",
+        "Flags N4 (Unambiguous names) for monetary variable without unit",
+        "Flags G25 (Named constants) for magic numbers 0.15, 1000, 50, 0.92",
+        "Flags F3 (No flag arguments) for boolean parameters",
+        "Flags C5 (No commented-out code) for SmtpClient block",
+        "Flags G26 (Be precise) for `applyDiscount == true` — redundant boolean comparison"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Please refactor this code completely.",
+      "files": ["evals/files/tc3_refactor.js"],
+      "expected_output": "Full rewrite with all findings marked [x], clean structure, named constants, encapsulated conditionals",
+      "expectations": [
+        "All or nearly all findings are marked [x] (applied by Claude)",
+        "Findings use format: [x] CODE (Rule name): description",
+        "Function is renamed from doStuff to something descriptive",
+        "Unused parameters (cb, retries, v) are removed",
+        "Magic numbers are extracted into named constants",
+        "Nested if-blocks are flattened (guard clauses or early returns)",
+        "Compound conditions are extracted into named variables (G28)",
+        "Commented-out code is removed (C5)",
+        "Dead code (empty retries block, unused verbose logging) is removed (G9)",
+        "Uses modern JS conventions: const, ===, array methods (G24)",
+        "Function is split into smaller single-responsibility functions (G30)"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Write tests for this function.",
+      "files": ["evals/files/tc4_tests.py"],
+      "expected_output": "Comprehensive test suite applying T-rules, with clean test names and boundary coverage",
+      "expectations": [
+        "Tests cover all three destinations (domestic, europe, international) — T1",
+        "Tests cover the express flag doubling cost",
+        "Tests cover the overweight surcharge (weight > 20kg)",
+        "Tests boundary at exactly 20kg and just above 20kg — T5",
+        "Tests zero and negative weight raising ValueError — T5",
+        "Tests unknown destination raising ValueError — T1",
+        "Test names are descriptive and describe the scenario — N1",
+        "Tests are pure (no I/O, no mocking needed) — T9",
+        "Findings reference T-rules by code and name",
+        "Flags or notes N4 (Unambiguous names) if source code has variables without units"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Please change the default value of `timeout` to 5000.",
+      "files": ["evals/files/tc5_small_edit.ts"],
+      "expected_output": "Requested value changed, N1/G25/C2/C3 always applied, other findings flagged or fixed",
+      "expectations": [
+        "Changes the value 3000 to 5000",
+        "Renames x to a descriptive name (N1 — always applied)",
+        "Removes or fixes obsolete/redundant comments (C2/C3 — always applied)",
+        "Flags or fixes N4 (Unambiguous names) for timeout without unit — suggests or applies timeout_ms",
+        "Flags or fixes G12/G9 for unused variable d",
+        "Findings use format with rule name in parentheses"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Write a Python function that calculates the total price for a shopping cart. Requirements: takes a list of items (each with price and quantity), applies a tax rate (default 19%), if total before tax exceeds 100 EUR apply a 10% discount before tax, if express shipping is selected add a flat fee of 5.99 EUR, return final total rounded to 2 decimals.",
+      "files": ["evals/files/tc6_write_new.md"],
+      "expected_output": "Clean code written from scratch — no dirty-then-fix pattern. Names are descriptive, constants are named, conditionals are simple, units are in names where applicable.",
+      "expectations": [
+        "Function and parameter names are descriptive from the start (N1) — no single-letter variables like t, s, x",
+        "Monetary constants are named: TAX_RATE, DISCOUNT_RATE, DISCOUNT_THRESHOLD, EXPRESS_SHIPPING_FEE or similar (G25)",
+        "Variables with units include the unit in the name where ambiguous, e.g. discount_threshold_eur or shipping_fee_eur (N4)",
+        "Each if-condition tests only one thing (G28) — no compound boolean expressions inline",
+        "Conditions are in positive form (G29) — no double negatives",
+        "Function does one thing or is clearly decomposed (G30)",
+        "No magic numbers appear in the function body (G25)",
+        "No boolean flag arguments like is_express (F3) — use separate functions instead",
+        "Functions have 0–2 arguments (F1) — 3+ arguments must be justified or restructured",
+        "Code does NOT show a pattern of writing dirty code then flagging it for cleanup — it should be clean on first write",
+        "Findings section is either empty or contains only minor [ ] flags — not a long list of self-inflicted violations"
+      ]
+    }
+  ]
+}
