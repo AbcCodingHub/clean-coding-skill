@@ -50,3 +50,13 @@ CRITICAL: You receive context from the parent agent including:
 </output_format>
 
 Keep feedback concise, specific, and actionable. Focus on blocking issues vs. nice-to-haves. Reference specific files, functions, and lines where relevant.
+
+## Clean Code Verification (mandatory)
+
+Verify the implementation against:
+#file:clean-coding/SKILL.md
+
+Use the "When reviewing code (without editing)" section with severity levels.
+A finding marked **high** (N1, G3, F1 with 5+ args, G5, T1) must trigger `NEEDS_REVISION` status.
+A finding marked **medium** (G25, G28, G16, G30, T5) is reported but does not block.
+A finding marked **low** (C2, C3, G9, F4) is reported only if 3+ exist.

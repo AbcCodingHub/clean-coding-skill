@@ -31,3 +31,16 @@ When you've finished the implementation task:
 3. Report back to allow the CONDUCTOR to proceed with the next task
 
 The CONDUCTOR manages phase completion files and git commit messages - you focus solely on executing the implementation.
+
+## Clean Code (mandatory)
+
+Before writing or modifying code, load and apply the rules from:
+#file:clean-coding/SKILL.md
+
+Additionally, for the relevant language, consult:
+- TypeScript files → #file:clean-coding/references/typescript.md
+- Python files → #file:clean-coding/references/python.md
+
+Apply rules **proactively** during implementation, not as cleanup. Report all
+applied rules in your phase summary using the checklist format from the skill.
+The conductor will pass your summary to the reviewer.
