@@ -1,6 +1,13 @@
 ---
 name: clean-coding
-description: Enforces Robert C. Martin's Clean Code principles when writing, editing, fixing, reviewing, or refactoring code in any language. Applies the Boy Scout Rule — always leave code cleaner than found. Use this skill whenever working with code, even for small edits, bug fixes, or adding features. Also triggers for code reviews, pull request feedback, test writing, and any task involving code quality.
+description: >
+  Apply when writing, editing, refactoring, or reviewing TypeScript or Python code.
+  Use during implementation tasks where code quality matters: feature work, bug fixes,
+  refactors, PR reviews. Triggers: 'write', 'implement', 'add function', 'fix',
+  'refactor', 'review', 'clean up'. Enforces Robert C. Martin's Clean Code rules
+  (N/F/G/C/T/E codes) with concrete TypeScript and Python examples. Reports findings
+  as a checklist with severity. Applies the Boy Scout Rule — always leave code cleaner
+  than found.
 ---
 
 # Clean Coding
